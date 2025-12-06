@@ -129,6 +129,91 @@ p.lead{margin:0 0 14px;color:rgba(230,246,255,0.9);font-size:14px}
   .panel{grid-template-columns:1fr; padding-bottom:120px}
   .floating-buttons{right:16px;left:16px;bottom:16px;flex-direction:row;justify-content:center}
 }
+/* --- TRUE MOBILE RESPONSIVE FIX FOR YOUR PAGE --- */
+@media screen and (max-width: 480px) {
+
+    .wrap {
+        padding: 20px;
+    }
+
+    .panel {
+        grid-template-columns: 1fr;
+        max-width: 100%;
+        gap: 20px;
+    }
+
+    .card {
+        padding: 20px;
+        margin-bottom: 18px;
+    }
+
+    .avatar {
+        width: 110px;
+        height: 110px;
+    }
+
+    h1 {
+        font-size: 18px;
+    }
+
+    p.lead {
+        font-size: 13px;
+    }
+
+    .stack {
+        gap: 8px;
+    }
+
+    .btn {
+        padding: 12px;
+        font-size: 14px;
+    }
+
+    /* QR section fix */
+    .qr-box img {
+        width: 150px;
+        height: auto;
+    }
+
+    /* Right side panel */
+    .right {
+        gap: 10px;
+    }
+
+    .panels {
+        padding: 10px;
+        min-height: auto;
+    }
+
+    .panel-content {
+        height: 260px;
+    }
+
+    /* Floating buttons (bottom) */
+    .floating-buttons {
+        flex-direction: row;
+        right: 12px;
+        left: 12px;
+        bottom: 12px;
+        gap: 10px;
+        justify-content: center;
+    }
+
+    .floating-btn {
+        padding: 10px 14px;
+        font-size: 14px;
+    }
+
+    /* Theme toggle button */
+    .theme-toggle {
+        top: 16px;
+        right: 16px;
+        width: 54px;
+        height: 54px;
+        font-size: 18px;
+    }
+}
+
 </style>
 </head>
 <body>
@@ -367,3 +452,4 @@ window.addEventListener('load', ()=> {
 </script>
 </body>
 </html>
+
