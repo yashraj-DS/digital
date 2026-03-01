@@ -1,456 +1,400 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Yashraj Sharma — Ultra Pro Max vFinal</title>
-
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Yashraj Sharma — Data Scientist</title>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
-
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;600;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
 <style>
 :root{
-  --accent: #00e6ff;
-  --accent-2: #7b2ff7;
-  --card: rgba(255,255,255,0.06);
-  --glass-border: rgba(255,255,255,0.12);
-  --text-dark: #eaf6ff;
-  --text-light: #001020;
-  --bg-dark: linear-gradient(120deg,#041b2d 0%, #001e3c 50%, #0a0a1f 100%);
-  --bg-light: linear-gradient(120deg,#cde4ff 0%, #a8d0ff 50%, #e0f2ff 100%);
-  --btn-light: #001020;
+  --neon:#00e6ff;--neon2:#7b2ff7;--neon3:#ff2d78;
+  --bg:#030d18;--card:rgba(4,22,42,0.82);
+  --border:rgba(0,230,255,0.18);--text:#d6f0ff;--dim:#4a7fa0;
 }
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{height:100%;overflow-x:hidden;}
+body{background:var(--bg);color:var(--text);font-family:'Rajdhani',sans-serif;}
 
-/* Layout + base */
-html,body{height:100%;margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial;overflow-x:hidden;scroll-behavior:smooth;}
-body{background:var(--bg-dark);color:var(--text-dark);transition: background 1s,color 1s;}
-#particles-js{position:fixed;inset:0;z-index:0;opacity:0.85;pointer-events:none;transition: background 2s;}
+#neural-canvas{position:fixed;inset:0;z-index:0;pointer-events:none;}
+#matrix-canvas{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:0.09;}
+
+body::after{content:'';position:fixed;inset:0;z-index:1;pointer-events:none;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,230,255,0.016) 2px,rgba(0,230,255,0.016) 4px);}
 
 .wrap{position:relative;z-index:2;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:40px;}
-.panel{width:980px;max-width:calc(100% - 80px);display:grid;grid-template-columns:420px 1fr;gap:28px;align-items:start}
+.panel{width:980px;max-width:calc(100% - 40px);display:grid;grid-template-columns:400px 1fr;gap:28px;align-items:start;}
 
-/* Card */
-.card {
-  background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
-  border-radius:18px;padding:28px;border:1px solid var(--glass-border);
-  box-shadow: 0 10px 40px rgba(0,0,0,0.5), 0 0 30px rgba(0,0,0,0.2) inset;
-  backdrop-filter: blur(10px);
-  position:relative; overflow:hidden; cursor:pointer;
-  transition: transform 0.28s ease, box-shadow 0.28s ease;
+/* CARD */
+.card{background:var(--card);border-radius:18px;padding:28px;border:1px solid var(--border);box-shadow:0 0 60px rgba(0,230,255,0.07),0 10px 40px rgba(0,0,0,0.6);backdrop-filter:blur(18px);position:relative;overflow:hidden;transition:transform .28s,box-shadow .28s;}
+.card:hover{transform:translateY(-6px) scale(1.01);box-shadow:0 0 80px rgba(0,230,255,0.18),0 20px 60px rgba(0,0,0,0.7);}
+.card::before{content:'';position:absolute;inset:-1px;border-radius:19px;z-index:-1;padding:1px;background:conic-gradient(from var(--a,0deg),transparent 20%,#00e6ff 40%,transparent 60%,#7b2ff7 80%,transparent);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;animation:spinBorder 4s linear infinite;}
+@property --a{syntax:'<angle>';inherits:false;initial-value:0deg;}
+@keyframes spinBorder{to{--a:360deg;}}
+.card::after{content:'';position:absolute;inset:0;border-radius:18px;pointer-events:none;background:linear-gradient(var(--neon),var(--neon)) top left/20px 2px no-repeat,linear-gradient(var(--neon),var(--neon)) top left/2px 20px no-repeat,linear-gradient(var(--neon),var(--neon)) bottom right/20px 2px no-repeat,linear-gradient(var(--neon),var(--neon)) bottom right/2px 20px no-repeat,linear-gradient(var(--neon2),var(--neon2)) top right/20px 2px no-repeat,linear-gradient(var(--neon2),var(--neon2)) top right/2px 20px no-repeat,linear-gradient(var(--neon2),var(--neon2)) bottom left/20px 2px no-repeat,linear-gradient(var(--neon2),var(--neon2)) bottom left/2px 20px no-repeat;opacity:.45;}
+.ripple{position:absolute;border-radius:50%;transform:translate(-50%,-50%) scale(0);background:rgba(0,230,255,0.14);pointer-events:none;animation:rippleAnim 700ms ease-out forwards;}
+@keyframes rippleAnim{to{transform:translate(-50%,-50%) scale(6);opacity:0;}}
+
+/* AVATAR */
+.avatar-wrap{position:relative;width:140px;height:140px;margin:0 auto 16px;}
+.avatar{width:140px;height:140px;border-radius:50%;object-fit:cover;border:3px solid rgba(0,230,255,0.3);box-shadow:0 0 30px rgba(0,230,255,0.4),0 10px 40px rgba(0,0,0,0.6);display:block;}
+.avatar-ring{position:absolute;inset:-8px;border-radius:50%;border:1px dashed rgba(0,230,255,0.4);animation:rotateDash 10s linear infinite;}
+.avatar-ring2{position:absolute;inset:-15px;border-radius:50%;border:1px dotted rgba(123,47,247,0.3);animation:rotateDash 16s linear infinite reverse;}
+@keyframes rotateDash{to{transform:rotate(360deg);}}
+
+/* NAME */
+h1{font-family:'Orbitron',sans-serif;font-size:21px;font-weight:900;color:#fff;letter-spacing:1px;text-align:center;margin:6px 0 6px;animation:pulseGlow 2.8s ease-in-out infinite;}
+@keyframes pulseGlow{0%,100%{text-shadow:0 0 10px #00e6ff,0 0 20px rgba(0,230,255,0.3);}50%{text-shadow:0 0 20px #00e6ff,0 0 40px #7b2ff7;}}
+.lead{font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:2px;color:var(--neon);text-align:center;margin-bottom:4px;animation:flicker 2.5s infinite;}
+@keyframes flicker{0%{opacity:.85}25%{opacity:1}55%{opacity:.75}75%{opacity:1}100%{opacity:.9}}
+.cur{animation:blink 1s step-end infinite;}
+@keyframes blink{50%{opacity:0;}}
+.type-line{font-family:'Share Tech Mono',monospace;font-size:9px;color:rgba(0,230,255,0.45);letter-spacing:1px;text-align:center;margin-bottom:16px;white-space:nowrap;overflow:hidden;border-right:1px solid rgba(0,230,255,0.4);width:0;animation:typing 3s steps(45) 1s both,caretBlink .8s step-end infinite;}
+@keyframes typing{to{width:100%;}}
+@keyframes caretBlink{50%{border-color:transparent;}}
+
+/* BUTTONS */
+.stack{display:grid;gap:9px;margin-top:6px;}
+.btn{display:flex;align-items:center;gap:10px;padding:11px 14px;border-radius:10px;background:rgba(0,230,255,0.03);border:1px solid rgba(0,230,255,0.14);color:var(--text);text-decoration:none;font-family:'Rajdhani',sans-serif;font-weight:600;font-size:14px;position:relative;overflow:hidden;transition:all .25s;cursor:pointer;}
+.btn:hover{background:rgba(0,230,255,0.08);border-color:rgba(0,230,255,0.5);transform:translateX(4px);box-shadow:0 0 20px rgba(0,230,255,0.2);}
+.btn .icon{width:22px;text-align:center;color:var(--neon);}
+.btn::before{content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;background:linear-gradient(90deg,transparent,rgba(0,230,255,0.1),transparent);transition:left .4s;}
+.btn:hover::before{left:140%;}
+.qr-box{display:flex;align-items:center;justify-content:center;margin-top:14px;background:rgba(0,0,0,0.2);padding:12px;border-radius:12px;border:1px solid rgba(0,230,255,0.08);}
+.qr-box img{width:130px;height:130px;border-radius:8px;display:block;filter:invert(1) hue-rotate(160deg);}
+.action-panel{display:flex;gap:10px;margin-top:10px;}
+.action-panel .btn{flex:1;justify-content:center;}
+
+/* RIGHT */
+.right{display:flex;flex-direction:column;gap:14px;}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+.stat{text-align:center;padding:10px 6px;border:1px solid rgba(0,230,255,0.1);border-radius:8px;background:rgba(0,230,255,0.02);}
+.stat-val{font-family:'Orbitron',sans-serif;font-size:20px;font-weight:700;color:var(--neon);text-shadow:0 0 14px rgba(0,230,255,0.6);}
+.stat-label{font-family:'Share Tech Mono',monospace;font-size:8px;color:var(--dim);letter-spacing:1px;margin-top:3px;}
+.panels{background:rgba(4,14,28,0.75);border-radius:16px;padding:14px;border:1px solid rgba(0,230,255,0.1);backdrop-filter:blur(14px);}
+
+/* TABS */
+.tabs{display:flex;gap:8px;margin-bottom:14px;}
+.tab{padding:8px 16px;border-radius:8px;background:rgba(255,255,255,0.02);cursor:pointer;font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:1px;border:1px solid rgba(0,230,255,0.08);transition:all .2s;color:var(--dim);user-select:none;}
+.tab:hover{color:var(--neon);border-color:rgba(0,230,255,0.3);}
+.tab.active{background:linear-gradient(90deg,rgba(0,230,255,0.12),rgba(123,47,247,0.12));color:var(--neon);border-color:rgba(0,230,255,0.4);box-shadow:0 0 20px rgba(0,230,255,0.12);}
+.panel-content{padding:4px;}
+
+/* PROJECTS */
+.project{background:rgba(0,230,255,0.02);padding:14px;border-radius:10px;margin-bottom:10px;border:1px solid rgba(0,230,255,0.08);position:relative;overflow:hidden;transition:transform .25s,box-shadow .25s;cursor:pointer;}
+.project:last-child{margin-bottom:0;}
+.project:hover{transform:translateY(-3px);box-shadow:0 8px 40px rgba(0,230,255,0.16);border-color:rgba(0,230,255,0.28);}
+.project.glow::before{content:'';position:absolute;inset:0;border-radius:10px;background:linear-gradient(90deg,rgba(0,230,255,0.04),rgba(123,47,247,0.04));pointer-events:none;}
+.project strong{font-family:'Orbitron',sans-serif;font-size:11px;color:var(--neon);letter-spacing:.5px;}
+.small{font-size:12px;color:rgba(180,220,255,0.7);margin-top:6px;font-family:'Share Tech Mono',monospace;line-height:1.6;}
+.proj-tags{margin-top:8px;display:flex;flex-wrap:wrap;gap:5px;}
+.proj-tag{font-family:'Share Tech Mono',monospace;font-size:9px;padding:2px 8px;border-radius:3px;border:1px solid rgba(0,230,255,0.22);color:var(--neon);letter-spacing:1px;}
+.gh-btn{font-family:'Share Tech Mono',monospace;font-size:9px;color:#c0a0ff;border:1px solid rgba(123,47,247,0.35);padding:3px 9px;border-radius:4px;text-decoration:none;letter-spacing:1px;white-space:nowrap;transition:all .2s;}
+.gh-btn:hover{background:rgba(123,47,247,0.18);}
+
+/* SKILL BARS */
+.skill-bar-row{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+.skill-bar-label{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--dim);width:90px;flex-shrink:0;letter-spacing:1px;}
+.skill-bar-track{flex:1;height:5px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden;}
+.skill-bar-fill{height:100%;border-radius:3px;width:0%;transition:width 1.2s cubic-bezier(.4,0,.2,1);}
+.b1{background:linear-gradient(90deg,var(--neon2),var(--neon));}
+.b2{background:linear-gradient(90deg,var(--neon),#00cfff);}
+.b3{background:linear-gradient(90deg,var(--neon3),var(--neon2));}
+.b4{background:linear-gradient(90deg,#00cfff,var(--neon));}
+.b5{background:linear-gradient(90deg,var(--neon2),var(--neon3));}
+.skill-bar-pct{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--neon);width:28px;text-align:right;}
+
+/* CHIPS */
+.skill-chips{margin-top:14px;}
+.chip{display:inline-block;padding:5px 10px;border-radius:6px;background:rgba(0,230,255,0.04);margin:4px 4px 0 0;font-family:'Share Tech Mono',monospace;font-size:10px;border:1px solid rgba(0,230,255,0.15);color:var(--neon);transition:all .2s;cursor:default;}
+.chip:hover{background:rgba(0,230,255,0.12);box-shadow:0 0 12px rgba(0,230,255,0.3);transform:translateY(-2px);}
+.chip.p{color:#c0a0ff;border-color:rgba(123,47,247,0.3);background:rgba(123,47,247,0.04);}
+.chip.p:hover{background:rgba(123,47,247,0.14);box-shadow:0 0 12px rgba(123,47,247,0.4);}
+
+/* STATUS */
+.status-bar{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-radius:10px;background:rgba(0,0,0,0.25);border:1px solid rgba(0,230,255,0.1);font-family:'Share Tech Mono',monospace;font-size:10px;}
+.status-left{display:flex;align-items:center;gap:8px;color:var(--dim);}
+.dot-online{width:7px;height:7px;border-radius:50%;background:#00ff88;box-shadow:0 0 8px #00ff88;animation:dotPulse 2s ease-in-out infinite;}
+@keyframes dotPulse{50%{opacity:.3;}}
+.status-right{color:var(--neon2);letter-spacing:2px;font-size:9px;}
+
+/* FLOATING */
+.floating-buttons{position:fixed;bottom:28px;right:28px;display:flex;flex-direction:column;gap:12px;z-index:60;}
+.floating-btn{display:flex;align-items:center;gap:10px;padding:12px 18px;border-radius:999px;background:linear-gradient(90deg,var(--neon),var(--neon2));color:#001020;font-family:'Orbitron',sans-serif;font-weight:700;font-size:11px;text-decoration:none;box-shadow:0 0 30px rgba(0,230,255,0.4);transition:all .25s;animation:glowPulse 3s infinite alternate;}
+.floating-btn:hover{transform:translateY(-5px) scale(1.04);}
+@keyframes glowPulse{from{box-shadow:0 0 20px rgba(0,230,255,0.3);}to{box-shadow:0 0 50px rgba(0,230,255,0.55);}}
+.theme-toggle{position:fixed;top:28px;right:28px;width:54px;height:54px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--neon),var(--neon2));cursor:pointer;font-size:20px;z-index:70;box-shadow:0 0 20px rgba(0,230,255,0.4);transition:transform .2s;}
+.theme-toggle:hover{transform:scale(1.1) rotate(15deg);}
+
+@media(max-width:980px){.panel{grid-template-columns:1fr;}}
+@media(max-width:480px){
+  .wrap{padding:16px;}.panel{max-width:100%;gap:16px;}.card{padding:20px;}
+  .floating-buttons{right:12px;left:12px;bottom:14px;flex-direction:row;justify-content:center;}
+  .floating-btn{padding:10px 14px;font-size:10px;}
+  .theme-toggle{top:14px;right:14px;width:46px;height:46px;font-size:18px;}
 }
-.card:hover{ transform: scale(1.04); box-shadow: 0 16px 60px rgba(0,230,255,0.45), 0 0 48px rgba(123,47,247,0.28);}
-
-/* ripple element used by JS */
-.ripple {
-  position:absolute;
-  border-radius:50%;
-  transform: translate(-50%,-50%) scale(0);
-  background: rgba(0,230,255,0.16);
-  pointer-events:none;
-  animation: rippleAnim 700ms ease-out;
-}
-@keyframes rippleAnim { to { transform: translate(-50%,-50%) scale(6); opacity:0; } }
-
-/* neon border behind card */
-.neon-border {position:absolute;inset:-2px;border-radius:20px;z-index:-1;
-  background: linear-gradient(90deg, rgba(0,230,255,0.12), rgba(123,47,247,0.08));
-  box-shadow: 0 6px 30px rgba(0,230,255,0.06), 0 0 40px rgba(123,47,247,0.04);
-  filter: blur(18px);
-}
-
-/* avatar & headings */
-.avatar{width:140px;height:140px;border-radius:50%;object-fit:cover;border:4px solid rgba(255,255,255,0.14);box-shadow:0 10px 40px rgba(0,0,0,0.6);display:block;margin:0 auto 16px}
-h1{margin:6px 0 8px;font-size:22px}
-p.lead{margin:0 0 14px;color:rgba(230,246,255,0.9);font-size:14px}
-
-/* flicker / neon accent for subtitle */
-.flicker{color:#c9f7ff;text-shadow:0 0 6px #00e6ff,0 0 10px #7b2ff7;animation: flicker 2.2s infinite;}
-@keyframes flicker{0%{opacity:0.88}20%{opacity:1}40%{opacity:0.78}60%{opacity:1}80%{opacity:0.95}100%{opacity:1}}
-
-/* Buttons */
-.btn {display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:12px;background:linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.06);color:var(--text-dark);text-decoration:none;font-weight:600;position:relative;overflow:hidden;transition: all 0.25s ease;}
-.btn .icon{width:22px;text-align:center}
-.btn:hover{transform:translateY(-4px);box-shadow:0 10px 36px rgba(0,230,255,0.28),0 0 30px rgba(123,47,247,0.18)}
-
-/* small pieces */
-.stack{display:grid;gap:10px;margin-top:10px}
-.small{font-size:13px;color:rgba(230,246,255,0.8)}
-
-/* QR / panels */
-.qr-box{display:flex;align-items:center;justify-content:center;margin-top:16px;background:rgba(0,0,0,0.18);padding:12px;border-radius:12px}
-.qr-box img{width:130px;height:130px;border-radius:8px;display:block}
-
-.right{display:flex;flex-direction:column;gap:14px}
-.panels{background:linear-gradient(180deg, rgba(255,255,255,0.018), rgba(255,255,255,0.01));border-radius:16px;padding:12px;border:1px solid rgba(255,255,255,0.04);min-height:360px}
-.tabs{display:flex;gap:8px;margin-bottom:12px}
-.tab{padding:8px 12px;border-radius:10px;background:rgba(255,255,255,0.02);cursor:pointer;font-weight:600;transition:0.2s}
-.tab.active{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#001020;box-shadow:0 6px 30px rgba(0,230,255,0.06)}
-
-.panel-content{height:320px;overflow:auto;padding:10px;border-radius:8px}
-.project{background:linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:12px;border-radius:10px;margin-bottom:10px;border:1px solid rgba(255,255,255,0.03);position:relative;transition:transform .25s,box-shadow .25s}
-.project:hover{transform:translateY(-4px) scale(1.01);box-shadow:0 10px 40px rgba(0,230,255,0.18),0 0 26px rgba(123,47,247,0.12)}
-
-/* Add glow to first two projects */
-.project.glow::before{content:"";position:absolute;inset:0;border-radius:10px;background:linear-gradient(90deg,#00e6ff,#7b2ff7);opacity:0.16;filter:blur(10px);pointer-events:none;}
-
-.glow-text {
-  color: #ffffff;
-  text-shadow:
-    0 0 6px #00e6ff,
-    0 0 12px #00e6ff,
-    0 0 20px #7b2ff7,
-    0 0 30px #7b2ff7,
-    0 0 45px #00e6ff;
-  animation: pulseGlow 2.4s infinite ease-in-out;
-}
-
-@keyframes pulseGlow {
-  0% { text-shadow: 0 0 6px #00e6ff; }
-  50% { text-shadow: 0 0 26px #7b2ff7; }
-  100% { text-shadow: 0 0 6px #00e6ff; }
-}
-
-/* skills */
-.skill{display:inline-block;padding:6px 8px;border-radius:8px;background:rgba(255,255,255,0.03);margin:6px 6px 0 0;font-weight:700;font-size:13px}
-.action-panel{display:flex;gap:12px;margin-top:12px;align-items:center}
-
-/* floating actions */
-.floating-buttons{position:fixed;bottom:28px;right:28px;display:flex;flex-direction:column;gap:12px;z-index:60;transition:opacity .6s}
-.floating-btn{display:flex;align-items:center;gap:10px;padding:12px 16px;border-radius:999px;background:linear-gradient(90deg,#00e6ff,#7b2ff7);color:#001;font-weight:700;text-decoration:none;box-shadow:0 10px 36px rgba(0,230,255,0.35),0 0 30px rgba(123,47,247,0.3);transition:all .25s;animation: glowPulse 3s infinite alternate}
-.floating-btn:hover{transform:translateY(-6px) scale(1.03);box-shadow:0 18px 60px rgba(0,230,255,0.45),0 0 48px rgba(123,47,247,0.4)}
-@keyframes glowPulse{0%{box-shadow:0 8px 28px rgba(0,230,255,0.3)}50%{box-shadow:0 18px 60px rgba(0,230,255,0.5)}100%{box-shadow:0 8px 28px rgba(0,230,255,0.3)}}
-
-/* toggle */
-.theme-toggle{position:fixed;top:28px;right:28px;width:62px;height:62px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:linear-gradient(90deg,#00e6ff,#7b2ff7);cursor:pointer;font-size:22px;z-index:70;box-shadow:0 12px 40px rgba(0,230,255,0.35)}
-.theme-toggle:hover{transform:scale(1.06);}
-
-/* small responsive */
-@media (max-width:980px){
-  .panel{grid-template-columns:1fr; padding-bottom:120px}
-  .floating-buttons{right:16px;left:16px;bottom:16px;flex-direction:row;justify-content:center}
-}
-/* --- TRUE MOBILE RESPONSIVE FIX FOR YOUR PAGE --- */
-@media screen and (max-width: 480px) {
-
-    .wrap {
-        padding: 20px;
-    }
-
-    .panel {
-        grid-template-columns: 1fr;
-        max-width: 100%;
-        gap: 20px;
-    }
-
-    .card {
-        padding: 20px;
-        margin-bottom: 18px;
-    }
-
-    .avatar {
-        width: 110px;
-        height: 110px;
-    }
-
-    h1 {
-        font-size: 18px;
-    }
-
-    p.lead {
-        font-size: 13px;
-    }
-
-    .stack {
-        gap: 8px;
-    }
-
-    .btn {
-        padding: 12px;
-        font-size: 14px;
-    }
-
-    /* QR section fix */
-    .qr-box img {
-        width: 150px;
-        height: auto;
-    }
-
-    /* Right side panel */
-    .right {
-        gap: 10px;
-    }
-
-    .panels {
-        padding: 10px;
-        min-height: auto;
-    }
-
-    .panel-content {
-        height: 260px;
-    }
-
-    /* Floating buttons (bottom) */
-    .floating-buttons {
-        flex-direction: row;
-        right: 12px;
-        left: 12px;
-        bottom: 12px;
-        gap: 10px;
-        justify-content: center;
-    }
-
-    .floating-btn {
-        padding: 10px 14px;
-        font-size: 14px;
-    }
-
-    /* Theme toggle button */
-    .theme-toggle {
-        top: 16px;
-        right: 16px;
-        width: 54px;
-        height: 54px;
-        font-size: 18px;
-    }
-}
-
 </style>
 </head>
 <body>
-  <div id="particles-js"></div>
 
-  <div class="wrap">
-    <div class="panel">
-      <!-- LEFT column -->
-      <div class="card" id="mainCard">
-        <div class="neon-border"></div>
-        <img class="avatar" src="https://i.imgur.com/0y8Ftya.png" alt="Profile Photo">
-        <h1 class="glow-text">Yashraj Sharma</h1>
-        <p class="lead flicker">Aspiring Data Scientist • Python | ML • Data analytics</p>
+<canvas id="neural-canvas"></canvas>
+<canvas id="matrix-canvas"></canvas>
 
-        <div class="stack">
-          <a class="btn" id="linkedinBtn" href="https://www.linkedin.com/in/yashraj-sharma-4a87ab348/?originalSubdomain=in" target="_blank"><span class="icon"><i class="fa-brands fa-linkedin"></i></span>LinkedIn</a>
-          <a class="btn" id="emailBtn" href="mailto:yashrajsh1234@gmail.com?subject=Contact%20from%20QR&body=Hello%20Yashraj,"><span class="icon"><i class="fa-solid fa-envelope"></i></span>Email</a>
-          <a class="btn" id="waBtn" href="https://wa.me/919315966837" target="_blank"><span class="icon"><i class="fa-brands fa-whatsapp"></i></span>WhatsApp</a>
-          <a class="btn" id="callBtn" href="tel:+919315966837"><span class="icon"><i class="fa-solid fa-phone"></i></span>Call</a>
-          <a class="btn" id="ghBtn" href="https://github.com/yashraj-DS" target="_blank"><span class="icon"><i class="fa-brands fa-github"></i></span>GitHub</a>
-        </div>
+<div class="wrap">
+  <div class="panel">
 
-        <div class="qr-box" title="UPI QR">
-          <img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=upi://pay?pa=YOUR_UPI_ID&pn=Yashraj%20Sharma&cu=INR&am=0" alt="UPI QR">
-        </div>
+    <!-- LEFT CARD -->
+    <div class="card" id="mainCard">
+      <div class="avatar-wrap">
+        <img class="avatar" src="https://i.imgur.com/0y8Ftya.png" alt="Yashraj Sharma">
+        <div class="avatar-ring"></div>
+        <div class="avatar-ring2"></div>
+      </div>
+      <h1>YASHRAJ SHARMA</h1>
+      <p class="lead">ASPIRING DATA SCIENTIST<span class="cur">_</span></p>
+      <div class="type-line">$ python train.py --data clean.csv --model rf</div>
 
-        <div class="action-panel">
-          <a class="btn" id="upiBtn" style="flex:1" href="upi://pay?pa=YOUR_UPI_ID&pn=Yashraj%20Sharma&cu=INR&am=0" target="_blank"><i class="fa-solid fa-money-bill-wave"></i> Pay / UPI</a>
-          <button class="btn" id="downloadVCard" style="flex:1"><i class="fa-solid fa-address-card"></i> Save Contact</button>
-        </div>
+      <div class="stack">
+        <a class="btn" href="https://www.linkedin.com/in/yashraj-sharma-4a87ab348/?originalSubdomain=in" target="_blank"><span class="icon"><i class="fa-brands fa-linkedin"></i></span>LinkedIn</a>
+        <a class="btn" href="mailto:yashrajsh1234@gmail.com?subject=Contact%20from%20QR&body=Hello%20Yashraj,"><span class="icon"><i class="fa-solid fa-envelope"></i></span>Email</a>
+        <a class="btn" href="https://wa.me/919315966837" target="_blank"><span class="icon"><i class="fa-brands fa-whatsapp"></i></span>WhatsApp</a>
+        <a class="btn" href="tel:+919315966837"><span class="icon"><i class="fa-solid fa-phone"></i></span>Call</a>
+        <a class="btn" href="https://github.com/yashraj-DS" target="_blank"><span class="icon"><i class="fa-brands fa-github"></i></span>GitHub</a>
       </div>
 
-      <!-- RIGHT column -->
-      <div class="right">
-        <div class="panels">
-          <div class="tabs">
-            <div class="tab active" data-tab="projects">Projects</div>
-            <div class="tab" data-tab="skills">Skills</div>
-            <div class="tab" data-tab="testimonials">Testimonials</div>
-          </div>
-
-          <div class="panel-content" id="projects">
-            <div class="project glow"><strong>Sales Pharmacy Dashboard</strong>
-              <div class="small">Excel + Python dashboard for pharmacy sales analytics.</div>
-            </div>
-
-            <div class="project glow"><strong>NEET Study Planner</strong>
-              <div class="small">Automated revision scheduler and progress tracker.</div>
-            </div>
-
-            <div class="project"><strong>Portfolio Site</strong>
-              <div class="small">Personal website & digital card projects.</div>
-            </div>
-          </div>
-
-          <div class="panel-content" id="skills" style="display:none">
-            <div>
-              <span class="skill">Python</span><span class="skill">Pandas</span><span class="skill">Matplotlib</span>
-              <span class="skill">Seaborn</span><span class="skill">ML</span><span class="skill">DL</span>
-              <span class="skill">Neural Networks</span><span class="skill">NumPy</span><span class="skill">Statistics</span>
-              <span class="skill">Advanced Excel</span><span class="skill">Power BI</span><span class="skill">SQL</span>
-            </div>
-            <p class="small">Data science stack plus medical domain knowledge.</p>
-          </div>
-
-          <div class="panel-content" id="testimonials" style="display:none">
-            <div class="project"><strong>Peer Review</strong>
-              <div class="small">"Very dedicated, strong coding background." — Classmate</div>
-            </div>
-            <div class="project"><strong>Project Lead</strong>
-              <div class="small">"Delivered robust dashboards under tight deadlines." — Mentor</div>
-            </div>
-          </div>
-        </div>
+      <div class="qr-box">
+        <img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=upi://pay?pa=YOUR_UPI_ID&pn=Yashraj%20Sharma&cu=INR&am=0" alt="UPI QR">
+      </div>
+      <div class="action-panel">
+        <a class="btn" href="upi://pay?pa=YOUR_UPI_ID&pn=Yashraj%20Sharma&cu=INR&am=0" target="_blank"><i class="fa-solid fa-money-bill-wave"></i>&nbsp;Pay / UPI</a>
+        <button class="btn" id="downloadVCard"><i class="fa-solid fa-address-card"></i>&nbsp;Save Contact</button>
       </div>
     </div>
-  </div>
 
-  <!-- Floating actions -->
-  <div class="floating-buttons" id="floatingButtons">
-    <a class="floating-btn" id="scheduleBtn" href="https://calendly.com/YOUR_CALENDLY" target="_blank"><i class="fa-regular fa-calendar"></i> Schedule a Meeting</a>
-    <a class="floating-btn" id="messageBtn" href="https://wa.me/919315966837" target="_blank"><i class="fa-solid fa-comment"></i> Drop a Message</a>
-  </div>
+    <!-- RIGHT -->
+    <div class="right">
+      <div class="stats">
+        <div class="stat"><div class="stat-val">2</div><div class="stat-label">PROJECTS</div></div>
+        <div class="stat"><div class="stat-val">10+</div><div class="stat-label">TOOLS</div></div>
+        <div class="stat"><div class="stat-val">∞</div><div class="stat-label">LEARNING</div></div>
+      </div>
 
-  <!-- Theme toggle -->
-  <div class="theme-toggle" id="themeToggleBtn" title="Toggle light / dark">🌙</div>
+      <div class="panels">
+        <div class="tabs">
+          <div class="tab active" data-tab="tab-projects">PROJECTS</div>
+          <div class="tab" data-tab="tab-skills">SKILLS</div>
+        </div>
+
+        <div class="panel-content" id="tab-projects">
+          <div class="project glow">
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;flex-wrap:wrap;">
+              <strong>SMARTLOAN RISK MODEL</strong>
+              <a class="gh-btn" href="https://github.com/yashraj-DS/SmartLoan-Risk-Model" target="_blank"><i class="fa-brands fa-github"></i>&nbsp;VIEW CODE</a>
+            </div>
+            <div class="small">ML model to predict loan approval based on applicant risk factors. Covers data preprocessing, feature engineering, model training &amp; evaluation using classification algorithms.</div>
+            <div class="proj-tags">
+              <span class="proj-tag">PYTHON</span><span class="proj-tag">SKLEARN</span><span class="proj-tag">PANDAS</span><span class="proj-tag">ML</span>
+            </div>
+          </div>
+          <div class="project">
+            <strong>PHARMACY MANAGEMENT WORKBOOK</strong>
+            <div class="small">Single Advanced Excel workbook for a full pharmacy — tracks daily medicine sales across sheets, plus employee attendance automation where marking someone absent auto-calculates salary deductions. Includes dynamic graphs &amp; summary dashboards. Pure Excel, zero code.</div>
+            <div class="proj-tags">
+              <span class="proj-tag">ADVANCED EXCEL</span><span class="proj-tag">AUTOMATION</span><span class="proj-tag">GRAPHS</span><span class="proj-tag">FORMULAS</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel-content" id="tab-skills" style="display:none">
+          <div id="skill-bars">
+            <div class="skill-bar-row"><div class="skill-bar-label">PYTHON</div><div class="skill-bar-track"><div class="skill-bar-fill b1" data-w="88"></div></div><div class="skill-bar-pct">88%</div></div>
+            <div class="skill-bar-row"><div class="skill-bar-label">PANDAS/NUMPY</div><div class="skill-bar-track"><div class="skill-bar-fill b2" data-w="82"></div></div><div class="skill-bar-pct">82%</div></div>
+            <div class="skill-bar-row"><div class="skill-bar-label">ML / SKLEARN</div><div class="skill-bar-track"><div class="skill-bar-fill b3" data-w="72"></div></div><div class="skill-bar-pct">72%</div></div>
+            <div class="skill-bar-row"><div class="skill-bar-label">DATA VIZ</div><div class="skill-bar-track"><div class="skill-bar-fill b4" data-w="80"></div></div><div class="skill-bar-pct">80%</div></div>
+            <div class="skill-bar-row"><div class="skill-bar-label">ADV. EXCEL</div><div class="skill-bar-track"><div class="skill-bar-fill b5" data-w="85"></div></div><div class="skill-bar-pct">85%</div></div>
+          </div>
+          <div class="skill-chips">
+            <span class="chip">Python</span><span class="chip">Pandas</span><span class="chip">NumPy</span>
+            <span class="chip">Matplotlib</span><span class="chip">Seaborn</span>
+            <span class="chip p">Machine Learning</span><span class="chip p">Deep Learning</span>
+            <span class="chip p">Neural Networks</span>
+            <span class="chip">SQL</span><span class="chip">Power BI</span>
+            <span class="chip">Advanced Excel</span><span class="chip">Statistics</span>
+          </div>
+          <p class="small" style="margin-top:14px;">Data science stack · Medical domain knowledge · Freshly growing 🚀</p>
+        </div>
+      </div>
+
+      <div class="status-bar">
+        <div class="status-left"><div class="dot-online"></div>OPEN TO OPPORTUNITIES · FRESHER</div>
+        <div class="status-right">DATA SCIENCE</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="floating-buttons">
+  <a class="floating-btn" href="https://calendly.com/YOUR_CALENDLY" target="_blank"><i class="fa-regular fa-calendar"></i>&nbsp;Schedule a Meeting</a>
+  <a class="floating-btn" href="https://wa.me/919315966837" target="_blank"><i class="fa-solid fa-comment"></i>&nbsp;Drop a Message</a>
+</div>
+<div class="theme-toggle" id="themeToggleBtn">🌙</div>
 
 <script>
-/* ------------------------------
-   Background + Particles updates
-   ------------------------------ */
-const particleColors = ["#00eaff","#ff00ff","#00ff80","#ffaa00","#00ffff"];
-const gradientColors = [
-  ["#041b2d","#001e3c","#0a0a1f"],
-  ["#001e3c","#041b2d","#123456"],
-  ["#0a0a1f","#002233","#004466"],
-  ["#123456","#0a0a1f","#001e3c"]
-];
-let gradientIndex = 0;
-let particleIndex = 0;
+/* ── NEURAL NETWORK ── */
+var nc = document.getElementById('neural-canvas');
+var nctx = nc.getContext('2d');
+nc.width = window.innerWidth;
+nc.height = window.innerHeight;
 
-function initParticles(color){
-  // clear and re-init
-  try { window.pJSDom = []; } catch(e){}
-  particlesJS("particles-js", {
-    particles: {
-      number: { value: 60 },
-      color: { value: color },
-      shape: { type: "circle" },
-      opacity: { value: 0.6, random: true },
-      size: { value: 3, random: true },
-      line_linked: { enable: true, distance: 150, color: color, opacity: 0.35, width: 1 },
-      move: { enable: true, speed: 2, direction: "bottom", random: true, out_mode: "out", bounce: false }
-    },
-    interactivity: {
-      detect_on: "canvas",
-      events: { onhover: { enable: true, mode: "repulse" }, onclick: { enable: true, mode: "push" }, resize: true },
-      modes: { grab: { distance: 200 }, bubble: { distance: 200, size: 4, duration: 2 }, repulse: { distance: 120 }, push: { particles_nb: 4 }, remove: { particles_nb: 2 } }
-    },
-    retina_detect: true
+var mouse = { x: nc.width / 2, y: nc.height / 2 };
+window.addEventListener('mousemove', function(e) { mouse.x = e.clientX; mouse.y = e.clientY; });
+
+var nodes = [];
+for (var i = 0; i < 75; i++) {
+  nodes.push({
+    x: Math.random() * nc.width, y: Math.random() * nc.height,
+    vx: (Math.random() - .5) * .45, vy: (Math.random() - .5) * .45,
+    r: Math.random() * 2 + .8
   });
 }
 
-function updateBackground(){
-  gradientIndex = (gradientIndex + 1) % gradientColors.length;
-  particleIndex = (particleIndex + 1) % particleColors.length;
-  const g = gradientColors[gradientIndex];
-  document.body.style.background = `linear-gradient(120deg, ${g[0]} 0%, ${g[1]} 50%, ${g[2]} 100%)`;
-  initParticles(particleColors[particleIndex]);
-}
-updateBackground();
-setInterval(updateBackground, 10000); // 10 seconds
-
-/* scroll parallax for particles + fade floating buttons */
-window.addEventListener('scroll', () => {
-  const p = document.getElementById('particles-js');
-  p.style.transform = `translateY(${window.scrollY * 0.18}px)`;
-  const fb = document.getElementById('floatingButtons');
-  fb.style.opacity = window.scrollY > 140 ? '0.6' : '1';
-});
-
-/* ------------------------------
-   Tabs
-   ------------------------------ */
-document.querySelectorAll('.tab').forEach(tab=>{
-  tab.addEventListener('click', () => {
-    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
-    tab.classList.add('active');
-    const key = tab.dataset.tab;
-    document.querySelectorAll('.panel-content').forEach(pc=>pc.style.display='none');
-    const el = document.getElementById(key);
-    if(el) el.style.display = 'block';
-  });
-});
-
-/* ------------------------------
-   Ripple on cards & projects
-   ------------------------------ */
-function createRipple(e, container){
-  // create .ripple element positioned at click
-  const rect = container.getBoundingClientRect();
-  const ripple = document.createElement('span');
-  ripple.className = 'ripple';
-  const x = e.clientX - rect.left;
-  const y = e.clientY - rect.top;
-  ripple.style.left = x + 'px';
-  ripple.style.top = y + 'px';
-  ripple.style.width = ripple.style.height = Math.max(rect.width, rect.height) + 'px';
-  container.appendChild(ripple);
-  ripple.addEventListener('animationend', ()=> ripple.remove());
-}
-
-// apply to main card and each project
-document.querySelectorAll('.card, .project').forEach(el=>{
-  el.addEventListener('click', function(e){
-    createRipple(e, this);
-  });
-});
-
-/* ------------------------------
-   Dark / Light toggle (persistent)
-   ------------------------------ */
-const toggleBtn = document.getElementById('themeToggleBtn');
-let darkMode = localStorage.getItem('upmx_theme') !== 'light'; // default dark
-function applyTheme() {
-  if(darkMode){
-    document.body.style.background = document.body.style.background || getComputedStyle(document.body).background;
-    document.body.style.color = 'var(--text-dark)';
-    document.querySelectorAll('.btn').forEach(b=>b.classList.remove('btn-light-mode'));
-    toggleBtn.textContent = '🌙';
-  } else {
-    document.body.style.background = 'linear-gradient(120deg,#cde4ff 0%, #a8d0ff 50%, #e0f2ff 100%)';
-    document.body.style.color = 'var(--text-light)';
-    document.querySelectorAll('.btn').forEach(b=>b.classList.add('btn-light-mode'));
-    toggleBtn.textContent = '☀';
+function drawNeural() {
+  nctx.clearRect(0, 0, nc.width, nc.height);
+  for (var i = 0; i < nodes.length; i++) {
+    var n = nodes[i];
+    n.x += n.vx; n.y += n.vy;
+    if (n.x < 0 || n.x > nc.width) n.vx *= -1;
+    if (n.y < 0 || n.y > nc.height) n.vy *= -1;
+    nctx.beginPath();
+    nctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+    nctx.fillStyle = 'rgba(0,230,255,0.6)';
+    nctx.fill();
   }
-  localStorage.setItem('upmx_theme', darkMode ? 'dark' : 'light');
+  for (var i = 0; i < nodes.length; i++) {
+    for (var j = i + 1; j < nodes.length; j++) {
+      var dx = nodes[i].x - nodes[j].x, dy = nodes[i].y - nodes[j].y;
+      var d = Math.sqrt(dx * dx + dy * dy);
+      if (d < 140) {
+        nctx.beginPath();
+        nctx.moveTo(nodes[i].x, nodes[i].y);
+        nctx.lineTo(nodes[j].x, nodes[j].y);
+        nctx.strokeStyle = 'rgba(0,230,255,' + ((1 - d / 140) * .22) + ')';
+        nctx.lineWidth = .6;
+        nctx.stroke();
+      }
+    }
+    var mdx = nodes[i].x - mouse.x, mdy = nodes[i].y - mouse.y;
+    var md = Math.sqrt(mdx * mdx + mdy * mdy);
+    if (md < 200) {
+      nctx.beginPath();
+      nctx.moveTo(nodes[i].x, nodes[i].y);
+      nctx.lineTo(mouse.x, mouse.y);
+      nctx.strokeStyle = 'rgba(123,47,247,' + ((1 - md / 200) * .5) + ')';
+      nctx.lineWidth = .8;
+      nctx.stroke();
+    }
+  }
+  requestAnimationFrame(drawNeural);
 }
-toggleBtn.addEventListener('click', ()=> { darkMode = !darkMode; applyTheme(); });
-applyTheme();
+drawNeural();
 
-/* ------------------------------
-   vCard download (Save Contact)
-   ------------------------------ */
-document.getElementById('downloadVCard').addEventListener('click', ()=> {
-  const vCardData =
-`BEGIN:VCARD
-VERSION:3.0
-FN:Yashraj Sharma
-TEL;TYPE=CELL:+919315966837
-EMAIL:yashrajsh1234@gmail.com
-URL:https://www.linkedin.com/in/yashraj-sharma-4a87ab348/
-END:VCARD`;
-  const blob = new Blob([vCardData], { type: 'text/vcard' });
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
+/* ── MATRIX RAIN ── */
+var mc = document.getElementById('matrix-canvas');
+var mctx = mc.getContext('2d');
+mc.width = window.innerWidth;
+mc.height = window.innerHeight;
+var matChars = '01アイウエオ∑λ∇∂∫βαπΔΩ';
+var matCols = Math.floor(mc.width / 18);
+var drops = [];
+for (var i = 0; i < matCols; i++) drops[i] = Math.floor(Math.random() * mc.height / 18);
+function drawMatrix() {
+  mctx.fillStyle = 'rgba(3,13,24,0.055)';
+  mctx.fillRect(0, 0, mc.width, mc.height);
+  mctx.fillStyle = '#00e6ff';
+  mctx.font = '13px monospace';
+  for (var i = 0; i < drops.length; i++) {
+    mctx.fillText(matChars[Math.floor(Math.random() * matChars.length)], i * 18, drops[i] * 18);
+    if (drops[i] * 18 > mc.height && Math.random() > .975) drops[i] = 0;
+    drops[i]++;
+  }
+}
+setInterval(drawMatrix, 65);
+
+window.addEventListener('resize', function() {
+  nc.width = mc.width = window.innerWidth;
+  nc.height = mc.height = window.innerHeight;
+});
+
+/* ── 3D TILT ── */
+var card = document.getElementById('mainCard');
+card.addEventListener('mousemove', function(e) {
+  var r = card.getBoundingClientRect();
+  var rx = (e.clientY - r.top - r.height / 2) / 18;
+  var ry = (r.left + r.width / 2 - e.clientX) / 18;
+  card.style.transform = 'rotateX(' + rx + 'deg) rotateY(' + ry + 'deg) translateY(-6px)';
+});
+card.addEventListener('mouseleave', function() { card.style.transform = ''; });
+
+/* ── RIPPLE ── */
+function addRipple(e, el) {
+  var rect = el.getBoundingClientRect();
+  var rip = document.createElement('span');
+  rip.className = 'ripple';
+  var sz = Math.max(rect.width, rect.height);
+  rip.style.cssText = 'left:' + (e.clientX - rect.left) + 'px;top:' + (e.clientY - rect.top) + 'px;width:' + sz + 'px;height:' + sz + 'px';
+  el.appendChild(rip);
+  rip.addEventListener('animationend', function() { rip.remove(); });
+}
+document.querySelectorAll('.card, .project').forEach(function(el) {
+  el.addEventListener('click', function(e) { addRipple(e, this); });
+});
+
+/* ── TABS ── */
+function animateBars() {
+  document.querySelectorAll('#skill-bars .skill-bar-fill').forEach(function(bar) {
+    var target = bar.getAttribute('data-w');
+    bar.style.transition = 'none';
+    bar.style.width = '0%';
+    setTimeout(function() {
+      bar.style.transition = 'width 1.2s cubic-bezier(.4,0,.2,1)';
+      bar.style.width = target + '%';
+    }, 50);
+  });
+}
+
+document.querySelectorAll('.tab').forEach(function(tab) {
+  tab.addEventListener('click', function() {
+    document.querySelectorAll('.tab').forEach(function(t) { t.classList.remove('active'); });
+    this.classList.add('active');
+    document.querySelectorAll('.panel-content').forEach(function(p) { p.style.display = 'none'; });
+    var targetId = this.getAttribute('data-tab');
+    var target = document.getElementById(targetId);
+    if (target) {
+      target.style.display = 'block';
+      if (targetId === 'tab-skills') animateBars();
+    }
+  });
+});
+
+/* ── VCARD ── */
+document.getElementById('downloadVCard').addEventListener('click', function() {
+  var v = 'BEGIN:VCARD\nVERSION:3.0\nFN:Yashraj Sharma\nTEL;TYPE=CELL:+919315966837\nEMAIL:yashrajsh1234@gmail.com\nURL:https://www.linkedin.com/in/yashraj-sharma-4a87ab348/\nEND:VCARD';
+  var a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([v], { type: 'text/vcard' }));
   a.download = 'Yashraj_Sharma.vcf';
   document.body.appendChild(a);
   a.click();
   a.remove();
 });
 
-/* ------------------------------
-   Small accessibility: keyboard toggle via Enter/Space
-   ------------------------------ */
-toggleBtn.setAttribute('tabindex','0');
-toggleBtn.addEventListener('keydown', (e)=> { if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleBtn.click(); } });
-
-/* ------------------------------
-   Ensure particles loaded if browser caches or slow load
-   ------------------------------ */
-window.addEventListener('load', ()=> {
-  // re-init particles once on load (safe)
-  initParticles(particleColors[particleIndex]);
+/* ── THEME TOGGLE ── */
+var dark = true;
+document.getElementById('themeToggleBtn').addEventListener('click', function() {
+  dark = !dark;
+  document.body.style.background = dark ? '#030d18' : 'linear-gradient(120deg,#cde4ff,#a8d0ff,#e0f2ff)';
+  document.body.style.color = dark ? '#d6f0ff' : '#001020';
+  this.textContent = dark ? '🌙' : '☀️';
 });
 </script>
 </body>
 </html>
-
-
